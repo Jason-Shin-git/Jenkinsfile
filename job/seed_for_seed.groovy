@@ -33,10 +33,10 @@ job('seed_job') {
             branches('*/main')
         }
     }
-    builders {
+    steps {
         // Job DSL Plugin configuration
-        dsl {
-            external('job/seed_job.groovy')
+        jobDsl {
+            targets('job/seed_job.groovy')
             ignoreExisting()
             sandbox()
         }
