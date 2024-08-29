@@ -19,12 +19,12 @@ final String param_MANIFEST_GIT_URL = "${MANIFEST_GIT_URL}"
 
 
 final String param_LANG_NAME = "${LANG_NAME}"
-final String param_PROJECT_GIT_URL = "git@bitbucket.org:LaonPeople/${GIT_NAME}"
+final String param_PROJECT_GIT_URL = "git@bitbucket.org:LaonPeople/${GIT_NAME}.git"
 final String param_ENVIRONMENTS = "${ENVIRONMENTS}".trim()
 final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}"
 final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
 
-final String projectName = param_PROJECT_GIT_URL.tokenize('/').last().replace('.git', '')
+// final String projectName = param_PROJECT_GIT_URL.plus('.git')
 
 
 // 이미지 생성 Job
@@ -50,7 +50,7 @@ pipelineJob("test") {
         stringParam('PROJECT_NAME', "$param_PROJECT_NAME", '')
         // stringParam('DEPLOYER_REFS', 'refs/heads/master', 'Git refs (배포 구성)')
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
-        stringParam('SCM_URL', "$projectName", '')
+        stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
     }
 
     logRotator {
