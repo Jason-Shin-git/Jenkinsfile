@@ -33,12 +33,6 @@ job('seed_job') {
             branches('*/main')
         }
     }
-    canRoam(true)
-    disabled(false)
-    blockBuildWhenDownstreamBuilding(false)
-    blockBuildWhenUpstreamBuilding(false)
-    concurrentBuild(false)
-
     builders {
         // Job DSL Plugin configuration
         dsl {
