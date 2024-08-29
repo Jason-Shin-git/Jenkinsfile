@@ -50,7 +50,7 @@ pipelineJob("test") {
         stringParam('PROJECT_NAME', "$param_PROJECT_NAME", '')
         // stringParam('DEPLOYER_REFS', 'refs/heads/master', 'Git refs (배포 구성)')
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
-        stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
+        stringParam('SCM_URL', "$projectName", '')
     }
 
     logRotator {
