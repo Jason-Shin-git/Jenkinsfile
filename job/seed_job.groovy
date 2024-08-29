@@ -32,20 +32,21 @@ pipelineJob("test") {
     displayName("TEST")
 
     parameters {
-        gitParameter{
-            name("BRANCH_NAME")
-            //description('Revision commit SHA')
-            type('BRANCH_TAG')
-            branch(null)
-            defaultValue('main')
-            branchFilter("(^$param_ENVIRONMENTS)")
-            tagFilter('.*')
-            sortMode('DESCENDING')
-            selectedValue('DEFAULT')
-            quickFilterEnabled(true)
-            useRepository(param_PROJECT_GIT_URL)
-        }
+        // gitParameter{
+        //     name("BRANCH_NAME")
+        //     //description('Revision commit SHA')
+        //     type('BRANCH_TAG')
+        //     branch(null)
+        //     defaultValue('main')
+        //     branchFilter("(^$param_ENVIRONMENTS)")
+        //     tagFilter('.*')
+        //     sortMode('DESCENDING')
+        //     selectedValue('DEFAULT')
+        //     quickFilterEnabled(true)
+        //     useRepository(param_PROJECT_GIT_URL)
+        // }
         //stringParam('REFS', ' ', 'Git refs (BRANCH_NAME 안나올 경우 입력)')
+        stringParam('BRANCH_NAME', "$param_ENVIRONMENTS", '')
         stringParam('PROJECT_NAME', "$param_PROJECT_NAME", '')
         // stringParam('DEPLOYER_REFS', 'refs/heads/master', 'Git refs (배포 구성)')
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
