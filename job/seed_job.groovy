@@ -27,8 +27,8 @@ final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}"
 final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
 // final String param_ ="${WORKSPACE}".tokenize('workspace/')
 // 이미지 생성 Job
-def jobFullName = currentBuild.rawBuild.parent.fullName
-pipelineJob("ttttt/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
+def folderPath = System.getenv('FOLDER_PATH') ?: 'default-folder'
+pipelineJob("${folderPath}/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
     echo "$jobFullName"
     description("""
 
