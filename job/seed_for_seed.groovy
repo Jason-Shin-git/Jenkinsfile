@@ -1,5 +1,12 @@
 job('seed_job') {
     description('This job creates other jobs and folders based on provided parameters.')
+    properties {
+        authorizeProjectProperty {
+            strategy {
+                triggeringUsersAuthorizationStrategy()
+            }
+        }
+    }
 
     parameters {
         stringParam('FOLDER', '', '# 폴더로 구분하고자할 때만 사용 \n# 예시 : Test1/test2')
@@ -24,6 +31,20 @@ job('seed_job') {
                 credentials('Bitbucket')
             }
             branches('*/main')
+        }
+    }
+    canRoam(true)
+    disabled(false)
+    blockBuildWhenDownstreamBuilding(false)
+    blockBuildWhenUpstreamBuilding(false)
+    concurrentBuild(false)
+
+    builders {
+        // Job DSL Plugin configuration
+        dsl {
+            external('job/seed_job.groovy')
+            ignoreExisting()
+            sandbox()
         }
     }
 

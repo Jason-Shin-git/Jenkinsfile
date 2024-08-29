@@ -47,6 +47,13 @@ pipelineJob("${param_FOLDER}/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
 
     """)
     displayName("[${param_ENVIRONMENTS}] ${param_GIT_NAME}")
+    properties {
+        authorizeProjectProperty {
+            strategy {
+                triggeringUsersAuthorizationStrategy()
+            }
+        }
+    }
 
     parameters {
         stringParam('BRANCH_NAME', "$param_ENVIRONMENTS", '')
