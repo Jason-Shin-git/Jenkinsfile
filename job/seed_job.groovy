@@ -59,7 +59,7 @@ pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
             genericVariables {
                 genericVariable {
                     key("BRANCH_NAME")
-                    value("$.push.changes[0].new.name")
+                    value("\$.push.changes[0].new.name")
                     expressionType("JSONPath") //Optional, defaults to JSONPath
                     regexpFilter("") //Optional, defaults to empty string
                     defaultValue("") //Optional, defaults to empty string
