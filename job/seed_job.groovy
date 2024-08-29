@@ -37,7 +37,7 @@ if (param_FOLDER) {
     folders.each { folderName ->
         folderPath = folderPath ? "${folderPath}/${folderName}" : folderName
         folder(folderPath) {
-            displayName("Folder: ${folderName}")
+            displayName("${folderName}")
             description("Automatically created folder: ${folderPath}")
         }
     }
