@@ -37,8 +37,7 @@ job('seed_job') {
         // Job DSL Plugin configuration
         jobDsl {
             targets('job/seed_job.groovy')
-            ignoreExisting()
-            sandbox()
+          	sandbox(true)
         }
     }
 
