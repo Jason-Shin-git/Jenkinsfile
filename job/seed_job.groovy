@@ -28,6 +28,20 @@ final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}"
 final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
 // final String param_ ="${WORKSPACE}".tokenize('workspace/')
 // 이미지 생성 Job
+
+if (param_FOLDER) {
+    // 폴더 경로를 '/'로 분리하여 각 폴더를 생성합니다.
+    def folders = param_FOLDER.split('/')
+    def folderPath = ""
+
+    folders.each { folderName ->
+        folderPath = folderPath ? "${folderPath}/${folderName}" : folderName
+        folder(folderPath) {
+            displayName("Folder: ${folderName}")
+            description("Automatically created folder: ${folderPath}")
+        }
+    }
+}
 pipelineJob("${param_FOLDER}/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
     description("""
 
