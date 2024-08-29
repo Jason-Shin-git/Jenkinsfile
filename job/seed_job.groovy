@@ -25,14 +25,12 @@ final String param_GIT_NAME = "${GIT_NAME}".trim()
 final String param_ENVIRONMENTS = "${ENVIRONMENTS}".trim()
 final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}"
 final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
-
+// final String param_ ="${WORKSPACE}".tokenize('workspace/')
 // 이미지 생성 Job
 pipelineJob("./${param_ENVIRONMENTS}-${param_GIT_NAME}") {
-    description('''
-test
-testttt
-testsste
-    ''')
+    description("""
+
+    """)
     displayName("[${param_ENVIRONMENTS}] ${param_GIT_NAME}")
 
     parameters {
