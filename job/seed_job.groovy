@@ -15,6 +15,7 @@ final String GIT_CREDENTIALS = "Bitbucket"
 /*
  * 아래는 고정된 파라미터 및 변수 입니다.
  */
+final String param_FOLDER = "${FOLDER}".trim()
 final String param_PROJECT_NAME = "${PROJECT_NAME}".trim()
 final String param_MANIFEST_GIT_URL = "${MANIFEST_GIT_URL}"
 
@@ -27,8 +28,7 @@ final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}"
 final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
 // final String param_ ="${WORKSPACE}".tokenize('workspace/')
 // 이미지 생성 Job
-def folderPath = System.getenv('FOLDER_PATH') ?: 'default-folder'
-pipelineJob("${folderPath}/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
+pipelineJob("${param_FOLDER}/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
     echo "$jobFullName"
     description("""
 
