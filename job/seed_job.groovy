@@ -14,7 +14,7 @@ final String GIT_CREDENTIALS = "Bitbucket"
 /*
  * 아래는 고정된 파라미터 및 변수 입니다.
  */
-final List<String> param_PROJECT_NAME = "${PROJECT_NAME}".trim().tokenize('\n')
+final String param_PROJECT_NAME = "${PROJECT_NAME}".trim()
 final String param_MANIFEST_GIT_URL = "${MANIFEST_GIT_URL}"
 
 
