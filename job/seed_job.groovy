@@ -54,15 +54,33 @@ pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
         // stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
     }
-    configure {
-        it / triggers << 'org.jenkinsci.plugins.gwt.GenericTrigger' {
-            spec()
+    triggers {
+        genericTrigger {
+            genericVariables {
+                genericVariable {
+                    key("BRANCH_NAME")
+                    value("$.push.changes[0].new.name")
+                    expressionType("JSONPath") //Optional, defaults to JSONPath
+                    regexpFilter("") //Optional, defaults to empty string
+                    defaultValue("") //Optional, defaults to empty string
+                }
+            }
             token("${param_GIT_NAME}")
             causeString("Generic Cause")
-            // regexpFilterExpression("^${param_ENVIRONMENTS}")
-            // regexpFilterText("${BRANCH_NAME}")
+            regexpFilterExpression("^${param_ENVIRONMENTS}+$")
+            regexpFilterText("\$BRANCH_NAME")
         }
     }
+
+    // configure {
+    //     it / triggers << 'org.jenkinsci.plugins.gwt.GenericTrigger' {
+    //         spec()
+    //         token("${param_GIT_NAME}")
+    //         causeString("Generic Cause")
+    //         // regexpFilterExpression("^${param_ENVIRONMENTS}")
+    //         // regexpFilterText("${BRANCH_NAME}")
+    //     }
+    // }
 
     logRotator {
         numToKeep 30
