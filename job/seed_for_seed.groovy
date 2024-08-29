@@ -1,4 +1,4 @@
-pipelineJob('seed_job') {
+job('seed_job') {
     description('This job creates other jobs and folders based on provided parameters.')
 
     parameters {
@@ -17,57 +17,18 @@ pipelineJob('seed_job') {
         stringParam('MANIFEST_GIT_URL', 'git@bitbucket.org:LaonPeople/assistant-common-manifest.git', '# 기본값으로 사용')
     }
 
-    definition {
-        cps {
-            script("""
-                // Job 생성 로직을 정의
-                final String param_FOLDER = params.FOLDER?.trim() ?: ''
-                final String projectName = params.PROJECT_NAME.trim()
-                final String gitName = params.GIT_NAME.trim()
-                final String environment = params.ENVIRONMENTS.trim()
-                final Map<String, String> folderInfo = [
-                    "Test1": "테스트1",
-                    "Test2": "테스트2"
-                ]
-
-                if (param_FOLDER) {
-                    def folders = param_FOLDER.split('/')
-                    def folderPath = ""
-
-                    folders.each { folderName ->
-                        folderPath = folderPath ? "\${folderPath}/\${folderName}" : folderName
-                        def displayName = folderInfo[folderName] ?: folderName
-                        folder(folderPath) {
-                            displayName(displayName)
-                            description("Automatically created folder: \${displayName}")
-                        }
-                    }
-
-                    // 최종 폴더 내에 Job 생성
-                    pipelineJob("\${folderPath}/\${environment}-\${gitName}") {
-                        definition {
-                            cps {
-                                script("""
-                                    pipeline {
-                                        agent any
-                                        stages {
-                                            stage('Build') {
-                                                steps {
-                                                    echo 'Building...'
-                                                }
-                                            }
-                                        }
-                                    }
-                                """)
-                                sandbox()
-                            }
-                        }
-                    }
-                } else {
-                    error("FOLDER parameter is required to create nested folders.")
-                }
-            """)
-            sandbox(true)
+    scm {
+        git {
+            remote {
+                url('git@github.com:Jason-Shin-git/Jenkinsfile.git')
+                credentials('Bitbucket')
+            }
+            branches('*/main')
         }
     }
+
+    triggers {
+        // Add any triggers if needed
+    }
+
 }
