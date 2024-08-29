@@ -26,38 +26,20 @@ final String param_ENVIRONMENTS = "${ENVIRONMENTS}".trim()
 final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}"
 final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
 
-// final String projectName = param_PROJECT_GIT_URL.plus('.git')
-
-
 // 이미지 생성 Job
-pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
+pipelineJob("./${param_ENVIRONMENTS}-${param_GIT_NAME}") {
     description('''
-    test
-    testttt
-    testsste
+test
+testttt
+testsste
     ''')
     displayName("[${param_ENVIRONMENTS}] ${param_GIT_NAME}")
 
     parameters {
-        // gitParameter{
-        //     name("BRANCH_NAME")
-        //     //description('Revision commit SHA')
-        //     type('BRANCH_TAG')
-        //     branch(null)
-        //     defaultValue('main')
-        //     branchFilter("(^$param_ENVIRONMENTS)")
-        //     tagFilter('.*')
-        //     sortMode('DESCENDING')
-        //     selectedValue('DEFAULT')
-        //     quickFilterEnabled(true)
-        //     useRepository(param_PROJECT_GIT_URL)
-        // }
-        //stringParam('REFS', ' ', 'Git refs (BRANCH_NAME 안나올 경우 입력)')
         stringParam('BRANCH_NAME', "$param_ENVIRONMENTS", '')
         stringParam('PROJECT_NAME', "$param_PROJECT_NAME", '')
-        // stringParam('DEPLOYER_REFS', 'refs/heads/master', 'Git refs (배포 구성)')
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
-        // stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
+        stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
     }
     triggers {
         genericTrigger {
@@ -76,16 +58,6 @@ pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
             regexpFilterText("\$BRANCH_NAME")
         }
     }
-
-    // configure {
-    //     it / triggers << 'org.jenkinsci.plugins.gwt.GenericTrigger' {
-    //         spec()
-    //         token("${param_GIT_NAME}")
-    //         causeString("Generic Cause")
-    //         // regexpFilterExpression("^${param_ENVIRONMENTS}")
-    //         // regexpFilterText("${BRANCH_NAME}")
-    //     }
-    // }
 
     logRotator {
         numToKeep 30
@@ -112,27 +84,6 @@ pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
                         // refspec '+refs/heads/*:refs/remotes/origin/* +refs/merge-requests/*/head:refs/remotes/origin/merge-requests/*'
                         credentials GIT_CREDENTIALS
                     }
-
-                    // extensions {
-                    //     pruneBranches()
-                    //     pruneTags {
-                    //         pruneTags(true)
-                    //     }
-                    //     cleanAfterCheckout()
-                    //     cloneOptions {
-                    //         noTags true
-                    //         shallow true
-                    //         depth 1
-                    //         timeout 1
-                    //     }
-
-                    //     sparseCheckoutPaths {
-                    //         sparseCheckoutPaths {
-                    //             sparseCheckoutPath { path "Common-file/create-image/Jenkinsfile" }
-                    //         }
-                    //     }
-
-                    // } /* extensions */
 
                 }
             } /* scm */
