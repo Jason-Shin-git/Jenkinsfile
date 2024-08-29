@@ -48,8 +48,8 @@ pipelineJob("test") {
         //stringParam('REFS', ' ', 'Git refs (BRANCH_NAME 안나올 경우 입력)')
         stringParam('PROJECT_NAME', "$param_PROJECT_NAME", '')
         // stringParam('DEPLOYER_REFS', 'refs/heads/master', 'Git refs (배포 구성)')
-        choiceParam('APP_IMAGE_REGISTRY', [APP_IMAGE_REGISTRY], '')
-        choiceParam('SCM_URL', [param_PROJECT_GIT_URL], '')
+        stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
+        stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
     }
 
     logRotator {
