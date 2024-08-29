@@ -7,7 +7,8 @@ import javaposse.jobdsl.dsl.DslFactory
 
 final String MANIFEST_GIT_CREDENTIAL = "Bitbucket"
 //docker ecr 주소입니다.
-// final String APP_IMAGE_REGISTRY = "devaiassistant.azurecr.io"
+final String JENKINSFILE_GIT_URL = "git@github.com:Jason-Shin-git/Jenkinsfile.git"
+// final String JENKINSFILE_GIT_URL = "git@bitbucket.org:LaonPeople/assistant-common-jenkinsfile.git"
 //빌드용 : Gitlab에 접근을 위한 credential id
 final String GIT_CREDENTIALS = "Bitbucket"
 
@@ -71,11 +72,11 @@ pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
             lightweight(true)
             scm {
                 git {
-                    branch "${param_ENVIRONMENTS}"
+                    branch "*/main"
 
                     remote {
                         name 'origin'
-                        url param_MANIFEST_GIT_URL
+                        url JENKINSFILE_GIT_URL
                         // refspec '+refs/heads/*:refs/remotes/origin/* +refs/merge-requests/*/head:refs/remotes/origin/merge-requests/*'
                         credentials GIT_CREDENTIALS
                     }
