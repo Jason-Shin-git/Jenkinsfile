@@ -28,8 +28,8 @@ final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
 
 
 // 이미지 생성 Job
-pipelineJob("test") {
-    displayName("TEST")
+pipelineJob("${param_ENVIRONMENTS}-${GIT_NAME}") {
+    displayName("[$param_ENVIRONMENTS] ${GIT_NAME}")
 
     parameters {
         // gitParameter{
