@@ -20,6 +20,7 @@ final String param_MANIFEST_GIT_URL = "${MANIFEST_GIT_URL}"
 
 final String param_LANG_NAME = "${LANG_NAME}"
 final String param_PROJECT_GIT_URL = "git@bitbucket.org:LaonPeople/${GIT_NAME}.git"
+final String param_GIT_NAME = "${GIT_NAME}".trim()
 final String param_ENVIRONMENTS = "${ENVIRONMENTS}".trim()
 final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}"
 final String param_APP_IMAGE_CREDENTIALS = "${APP_IMAGE_CREDENTIALS}"
