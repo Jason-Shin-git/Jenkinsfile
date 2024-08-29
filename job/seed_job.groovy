@@ -52,7 +52,16 @@ pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
         stringParam('PROJECT_NAME', "$param_PROJECT_NAME", '')
         // stringParam('DEPLOYER_REFS', 'refs/heads/master', 'Git refs (배포 구성)')
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
-        stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
+        // stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
+    }
+    configure {
+        it / triggers << 'org.jenkinsci.plugins.gwt.GenericTrigger' {
+            spec()
+            token("${param_GIT_NAME}")
+            causeString("Generic Cause")
+            regexpFilterExpression("^${param_ENVIRONMENTS}")
+            regexpFilterText("${BRANCH_NAME}")
+        }
     }
 
     logRotator {
