@@ -59,8 +59,8 @@ pipelineJob("${param_ENVIRONMENTS}-${param_GIT_NAME}") {
             spec()
             token("${param_GIT_NAME}")
             causeString("Generic Cause")
-            regexpFilterExpression("^${param_ENVIRONMENTS}")
-            regexpFilterText("${BRANCH_NAME}")
+            // regexpFilterExpression("^${param_ENVIRONMENTS}")
+            // regexpFilterText("${BRANCH_NAME}")
         }
     }
 
