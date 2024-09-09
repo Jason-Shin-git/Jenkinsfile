@@ -54,14 +54,15 @@ pipeline {
                 cleanWs()
                 git branch: "main", credentialsId: 'Bitbucket', url: "${param_MANIFEST_GIT_URL}"
                 script {
+                    def yamlPath = "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}"
                     def yamlFile = "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/${param_LANG_NAME}-values.yaml"
                     
                     if (!fileExists(yamlFile)) {
                         echo "Manifest file does not exist. Copying files from base folder."
-                        sh "mkdir -p ${WORKSPACE}/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
-                        sh "chmod -R 777 ${WORKSPACE}/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
-                        sh "cp ${WORKSPACE}/base/${param_BRANCH_NAME}/${param_LANG_NAME}/*.yaml ${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/"
-                        sh "git add $WORKSPACE/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
+                        sh "mkdir -p ${yamlPath}/"
+                        sh "chmod -R 777 ${yamlPath}/"
+                        sh "cp ${WORKSPACE}/base/${param_BRANCH_NAME}/${param_LANG_NAME}/*.yaml ${yamlPath}/"
+                        sh "git add ${yamlPath}}/"
                         sh "git commit -m \"Create New Manifest\""
                         sh "git push"
                     }
