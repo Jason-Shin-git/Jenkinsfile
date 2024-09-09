@@ -13,13 +13,15 @@ pipeline {
         final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}".trim()
         final String param_PROJECT_GIT_URL = "${SCM_URL}".trim()
         final String param_MANIFEST_GIT_URL = "${MANIFEST_GIT_URL}".trim()
-        final String APP_IMAGE = "${APP_IMAGE_REGISTRY}/${param_GIT_NAME}:${BRANCH_NAME}-${BUILD_NUMBER}"
+        final String param_LANG_NAME = "${LANG_NAME}".trim()
+        final String APP_TAG = "${BRANCH_NAME}-${BUILD_NUMBER}"
+        final String APP_IMAGE = "${APP_IMAGE_REGISTRY}/${param_GIT_NAME}:${APP_TAG}"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${SCM_URL}"
+                git branch: "${param_BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${param_PROJECT_GIT_URL}"
             }
         }
 
@@ -50,7 +52,27 @@ pipeline {
         stage('Update Manifest') {
             steps {
                 cleanWs()
-                git branch: "${BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${SCM_URL}"
+                git branch: "${param_BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${param_MANIFEST_GIT_URL}"
+                def readManifestYaml = readYaml file: "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/values.yaml"
+                if (!fileExists(valuesYamlPath)) {
+                    echo "Manifest file does not exist. Copying files from base folder."
+                    sh "mkdir -p ${WORKSPACE}/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
+                    sh "chmod -R 777 ${WORKSPACE}/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
+                    sh "cp ${WORKSPACE}/${param_BRANCH_NAME}/base/${param_LANG_NAME}/*.yaml ${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/"
+                    sh "git add $WORKSPACE/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
+                    sh "git commit -m \"Create New Manifest\""
+                    sh "git push"
+                }
+
+                readManifestYaml.image.registry = "${param_APP_IMAGE_REGISTRY}"
+                readManifestYaml.image.name = "${param_GIT_NAME}"
+                readManifestYaml.image.tag = "${APP_TAG}"
+                writeYaml file: "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/values.yaml", data: readManifestYaml, overwrite: true
+                sh """
+                    git add ${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/values.yaml
+                    git commit -m "Update Manifest - ${APP_IMAGE}"
+                    git push
+                """
             }
         }
     }

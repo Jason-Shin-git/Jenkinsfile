@@ -59,6 +59,7 @@ pipelineJob("${param_FOLDER}/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
         stringParam('PROJECT_NAME', "$param_PROJECT_NAME", '')
         stringParam('GIT_NAME', "$param_GIT_NAME", '')
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
+        stringParam('LANG_NAME', "$param_LANG_NAME", '')
         stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
         stringParam('MANIFEST_GIT_URL', "$param_MANIFEST_GIT_URL", '')
     }
