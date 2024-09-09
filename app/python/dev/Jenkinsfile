@@ -62,7 +62,7 @@ pipeline {
                         sh "mkdir -p ${yamlPath}/"
                         sh "chmod -R 777 ${yamlPath}/"
                         sh "cp ${WORKSPACE}/base/${param_BRANCH_NAME}/${param_LANG_NAME}/*.yaml ${yamlPath}/"
-                        sh "git add ${yamlPath}}/"
+                        sh "git add ${yamlPath}/"
                         sh "git commit -m \"Create New Manifest\""
                         sh "git push"
                     }
