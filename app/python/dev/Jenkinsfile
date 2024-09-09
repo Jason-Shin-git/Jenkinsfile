@@ -1,0 +1,48 @@
+pipeline {
+    agent {
+        label 'python'
+    }
+
+    environment {
+        final String param_BRANCH_NAME = "${BRANCH_NAME}".trim()
+        final String param_PROJECT_NAME = "${PROJECT_NAME}".trim()
+        final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}".trim()
+        final String param_PROJECT_GIT_URL = "${SCM_URL}".trim()
+        final String APP_IMAGE = "${APP_IMAGE_REGISTRY}/${PROJECT_NAME}:${BRANCH_NAME}-${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            container('git') {
+                steps {
+                    git branch: "${BRANCH_NAME}", url: "${SCM_URL}"
+                }
+            }
+        }
+
+        // stage('Install Dependencies') {
+        //     container('python'){
+        //         steps {
+        //             sh 'pip install -r requirements.txt'
+        //         }
+        //     }
+        // }
+
+        stage('Build & Push Container Image') {
+            steps {
+                container('kaniko') { // kaniko를 통해 이미지를 빌드합니다.
+                    sh """
+                        /kaniko/executor \
+                        --context=./ \
+                        --dockerfile=./Dockerfile \
+                        --build-arg ARG_BRANCH=${param_BRANCH_NAME} \
+                        --destination=${APP_IMAGE} \
+                        --force \
+                        --push-retry 3
+                    """
+                }
+            }
+        }
+
+    }
+}
