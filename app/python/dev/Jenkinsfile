@@ -54,6 +54,10 @@ pipeline {
                 cleanWs()
                 git branch: "main", credentialsId: 'Bitbucket', url: "${param_MANIFEST_GIT_URL}"
                 script {
+                    sh """
+                      git config --global user.email "zlzzlzz2l@laonpeople.com"
+                      git config --global user.name "zlzzlzz2l"
+                    """
                     def yamlPath = "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}"
                     def yamlFile = "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/${param_LANG_NAME}-values.yaml"
                     
