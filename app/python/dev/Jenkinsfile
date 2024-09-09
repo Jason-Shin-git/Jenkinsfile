@@ -12,6 +12,7 @@ pipeline {
         final String param_GIT_NAME = "${GIT_NAME}".trim()
         final String param_APP_IMAGE_REGISTRY = "${APP_IMAGE_REGISTRY}".trim()
         final String param_PROJECT_GIT_URL = "${SCM_URL}".trim()
+        final String param_MANIFEST_GIT_URL = "${MANIFEST_GIT_URL}".trim()
         final String APP_IMAGE = "${APP_IMAGE_REGISTRY}/${param_GIT_NAME}:${BRANCH_NAME}-${BUILD_NUMBER}"
     }
 
@@ -46,5 +47,11 @@ pipeline {
             }
         }
 
+        stage('Update Manifest') {
+            steps {
+                cleanWs()
+                git branch: "${BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${SCM_URL}"
+            }
+        }
     }
 }

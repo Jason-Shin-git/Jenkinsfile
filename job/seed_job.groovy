@@ -61,6 +61,7 @@ pipelineJob("${param_FOLDER}/${param_ENVIRONMENTS}-${param_GIT_NAME}") {
         stringParam('GIT_NAME', "$param_GIT_NAME", '')
         stringParam('APP_IMAGE_REGISTRY', "$param_APP_IMAGE_REGISTRY", '')
         stringParam('SCM_URL', "$param_PROJECT_GIT_URL", '')
+        stringParam('MANIFEST_GIT_URL', "$param_MANIFEST_GIT_URL", '')
     }
     triggers {
         genericTrigger {
