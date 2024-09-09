@@ -51,7 +51,7 @@ pipeline {
 
         stage('Update Manifest') {
             steps {
-                cleanWs()
+                // cleanWs()
                 git branch: "main", credentialsId: 'Bitbucket', url: "${param_MANIFEST_GIT_URL}"
                 script {
                     sh """
