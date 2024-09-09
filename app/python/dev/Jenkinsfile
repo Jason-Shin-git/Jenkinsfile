@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout') {
             container('git') {
                 steps {
-                    git branch: "${BRANCH_NAME}", url: "${SCM_URL}"
+                    git branch: "${BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${SCM_URL}"
                 }
             }
         }
