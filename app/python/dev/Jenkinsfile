@@ -68,7 +68,7 @@ pipeline {
                         sh "cp ${WORKSPACE}/base/${param_BRANCH_NAME}/${param_LANG_NAME}/*.yaml ${yamlPath}/"
                         sh "git add ${yamlPath}/"
                         sh "git commit -m \"Create New Manifest\""
-                        sh "git push --set-upstream origin main"
+                        sh "git push --set-upstream ${param_MANIFEST_GIT_URL} main"
                     }
                     def readManifestYaml = readYaml file: "${yamlFile}"
                     readManifestYaml.image.registry = "${param_APP_IMAGE_REGISTRY}"
@@ -78,7 +78,7 @@ pipeline {
                     sh """
                         git add ${yamlFile}
                         git commit -m "Update Manifest - ${APP_IMAGE}"
-                        git push --set-upstream origin main
+                        git push --set-upstream ${param_MANIFEST_GIT_URL} main
                     """
                 }
             }
