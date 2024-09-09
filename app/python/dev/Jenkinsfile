@@ -53,23 +53,24 @@ pipeline {
             steps {
                 cleanWs()
                 git branch: "${param_BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${param_MANIFEST_GIT_URL}"
-                def readManifestYaml = readYaml file: "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/values.yaml"
-                if (!fileExists(valuesYamlPath)) {
+                def yamlFile = "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/${param_LANG_NAME}-values.yaml"
+                
+                if (!fileExists(yamlFile)) {
                     echo "Manifest file does not exist. Copying files from base folder."
                     sh "mkdir -p ${WORKSPACE}/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
                     sh "chmod -R 777 ${WORKSPACE}/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
-                    sh "cp ${WORKSPACE}/${param_BRANCH_NAME}/base/${param_LANG_NAME}/*.yaml ${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/"
+                    sh "cp ${WORKSPACE}/base/${param_BRANCH_NAME}/${param_LANG_NAME}/*.yaml ${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/"
                     sh "git add $WORKSPACE/${branch}/${env.DOMAIN}/${env.SERVICE}/${env.ROLE}/"
                     sh "git commit -m \"Create New Manifest\""
                     sh "git push"
                 }
-
+                def readManifestYaml = readYaml file: "${yamlFile}"
                 readManifestYaml.image.registry = "${param_APP_IMAGE_REGISTRY}"
                 readManifestYaml.image.name = "${param_GIT_NAME}"
                 readManifestYaml.image.tag = "${APP_TAG}"
-                writeYaml file: "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/values.yaml", data: readManifestYaml, overwrite: true
+                writeYaml file: "${yamlFile}", data: readManifestYaml, overwrite: true
                 sh """
-                    git add ${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/values.yaml
+                    git add ${yamlFile}
                     git commit -m "Update Manifest - ${APP_IMAGE}"
                     git push
                 """
