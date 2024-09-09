@@ -52,7 +52,7 @@ pipeline {
         stage('Update Manifest') {
             steps {
                 cleanWs()
-                git branch: "${param_BRANCH_NAME}", credentialsId: 'Bitbucket', url: "${param_MANIFEST_GIT_URL}"
+                git branch: "main", credentialsId: 'Bitbucket', url: "${param_MANIFEST_GIT_URL}"
                 script {
                     def yamlFile = "${WORKSPACE}/${param_PROJECT_NAME}/${param_BRANCH_NAME}/${param_GIT_NAME}/${param_LANG_NAME}-values.yaml"
                     
