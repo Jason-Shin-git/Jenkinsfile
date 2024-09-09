@@ -1,6 +1,9 @@
 pipeline {
     agent {
-        label 'python'
+        label {
+            label 'python-agent'
+            retries 3
+        }
     }
 
     environment {
