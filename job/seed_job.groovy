@@ -2,7 +2,7 @@
 
 // Jenkins Job DSL
 // https://github.com/jenkinsci/job-dsl-plugin
-
+node('master')
 import javaposse.jobdsl.dsl.DslFactory
 
 final String MANIFEST_GIT_CREDENTIAL = "Bitbucket"
