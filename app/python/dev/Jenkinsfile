@@ -77,6 +77,9 @@ pipeline {
 
                     }
                     def readManifestYaml = readYaml file: "${yamlFile}"
+                    readManifestYaml.global.environment = "${param_BRANCH_NAME}"
+                    readManifestYaml.global.projectName = "${param_PROJECT_NAME}"
+                    readManifestYaml.global.appName = "${param_GIT_NAME}"
                     readManifestYaml.image.registry = "${param_APP_IMAGE_REGISTRY}"
                     readManifestYaml.image.name = "${param_GIT_NAME}"
                     readManifestYaml.image.tag = "${APP_TAG}"
