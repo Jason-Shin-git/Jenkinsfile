@@ -33,21 +33,21 @@ pipeline {
         //     }
         // }
 
-        // stage('Build & Push Container Image') {
-        //     steps {
-        //         container('kaniko') { // kaniko를 통해 이미지를 빌드합니다.
-        //             sh """
-        //                 /kaniko/executor \
-        //                 --context=./ \
-        //                 --dockerfile=./Dockerfile \
-        //                 --build-arg ARG_BRANCH=${param_BRANCH_NAME} \
-        //                 --destination=${APP_IMAGE} \
-        //                 --force \
-        //                 --push-retry 3
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Build & Push Container Image') {
+            steps {
+                container('kaniko') { // kaniko를 통해 이미지를 빌드합니다.
+                    sh """
+                        /kaniko/executor \
+                        --context=./ \
+                        --dockerfile=./Dockerfile \
+                        --build-arg ARG_BRANCH=${param_BRANCH_NAME} \
+                        --destination=${APP_IMAGE} \
+                        --force \
+                        --push-retry 3
+                    """
+                }
+            }
+        }
 
         stage('Update Manifest') {
             steps {
