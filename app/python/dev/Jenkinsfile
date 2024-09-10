@@ -80,6 +80,7 @@ pipeline {
                     readManifestYaml.image.registry = "${param_APP_IMAGE_REGISTRY}"
                     readManifestYaml.image.name = "${param_GIT_NAME}"
                     readManifestYaml.image.tag = "${APP_TAG}"
+                    readManifestYaml.image.tttt = "tttt"
                     writeYaml file: "${yamlFile}", data: readManifestYaml, overwrite: true
                     sh "git add ${yamlFile}"
                     sh "git commit -m \"Update Manifest - ${APP_IMAGE}\""
